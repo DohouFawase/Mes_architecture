@@ -137,7 +137,57 @@ App\Providers\RepositoryServiceProvider::class,
 
 ---
 
-## 7. Pour ajouter un module plus tard
+## 7. Comment exécuter le script (Linux, Ubuntu, macOS, Windows)
+
+Dans tous les cas, place `setup-laravel-architecture.sh` à la racine de ton
+projet Laravel, au même niveau que le fichier `artisan`.
+
+### Linux / Ubuntu / macOS
+
+```bash
+chmod +x setup-laravel-architecture.sh
+./setup-laravel-architecture.sh
+```
+
+Si tu as une erreur `Permission denied` :
+
+```bash
+bash setup-laravel-architecture.sh
+```
+
+### Windows
+
+PowerShell et CMD ne comprennent pas les scripts bash. Trois options :
+
+**Option 1 — WSL (recommandé)**
+
+```bash
+wsl
+cd /mnt/c/chemin/vers/ton-projet
+bash setup-laravel-architecture.sh
+```
+
+**Option 2 — Git Bash** (installé avec Git for Windows)
+
+Ouvre Git Bash dans le dossier du projet, puis :
+
+```bash
+bash setup-laravel-architecture.sh
+```
+
+**Option 3 — Laragon / XAMPP avec Git Bash intégré**
+
+Même commande que ci-dessus, depuis le terminal intégré de l'outil.
+
+### Pré-requis, quel que soit le système
+
+- PHP + Composer installés et accessibles dans le terminal utilisé
+- `php artisan` doit déjà fonctionner dans le projet avant de lancer le script
+- Composer doit pouvoir tourner (`composer dump-autoload` est appelé en fin de script)
+
+---
+
+## 8. Pour ajouter un module plus tard
 
 Pas besoin de relancer tout le script : ajoute simplement le nom au tableau
 `MODULES` et relance-le. Comme chaque section (`mkdir -p`, `cat >`) écrase ou
@@ -145,6 +195,68 @@ recrée uniquement les fichiers concernés, les modules déjà en place restent
 intacts (attention quand même à ne pas relancer sur un module déjà modifié à
 la main, sinon tes changements seront écrasés).
 
+---
 
-chmod +x install-laravel.sh
-./install-laravel.sh
+## 8. Exécuter le script selon ton système
+
+Dans tous les cas, place `setup-laravel-architecture.sh` à la racine du projet
+(là où se trouve le fichier `artisan`), édite le tableau `MODULES` si besoin,
+puis suis les commandes de ton système.
+
+### Linux (Ubuntu, Debian, etc.)
+
+```bash
+chmod +x setup-laravel-architecture.sh
+./setup-laravel-architecture.sh
+```
+
+Si erreur `Permission denied` :
+
+```bash
+bash setup-laravel-architecture.sh
+```
+
+### macOS
+
+Même chose que Linux, le Terminal de macOS utilise aussi bash/zsh :
+
+```bash
+chmod +x setup-laravel-architecture.sh
+./setup-laravel-architecture.sh
+```
+
+Si le Terminal est en zsh (par défaut depuis macOS Catalina), aucune différence,
+le script tourne pareil.
+
+### Windows
+
+Le script est en bash, il ne tourne pas nativement dans PowerShell ou l'invite
+de commandes (CMD). Trois options :
+
+1. **WSL (recommandé)** — installe le sous-système Linux pour Windows :
+   ```powershell
+   wsl --install
+   ```
+   Redémarre, ouvre le terminal Ubuntu qui s'installe, place-toi dans ton
+   projet (souvent sous `/mnt/c/Users/<toi>/...`), puis lance-le comme sous
+   Linux :
+   ```bash
+   chmod +x setup-laravel-architecture.sh
+   ./setup-laravel-architecture.sh
+   ```
+
+2. **Git Bash** — si tu as Git installé, clique droit dans le dossier du
+   projet → "Git Bash Here", puis :
+   ```bash
+   bash setup-laravel-architecture.sh
+   ```
+
+3. **Docker / Laravel Sail** — si ton projet tourne déjà dans un conteneur,
+   exécute le script à l'intérieur du conteneur (`docker compose exec app bash`
+   ou `./vendor/bin/sail bash`), puis lance-le normalement une fois dedans.
+
+### Après l'exécution (tous systèmes)
+
+Vérifie que `composer` et `php` sont bien accessibles dans le terminal utilisé
+(`composer -V` et `php -v`), sinon les étapes 14 du script (`composer
+dump-autoload`, `php artisan optimize:clear`) échoueront.
